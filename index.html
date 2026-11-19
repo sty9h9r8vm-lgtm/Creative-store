@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>كرييتف | CREATIVE STORE</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f4f4f6; color: #1f2937; line-height: 1.6; }
+
+        header { background: #111827; color: white; padding: 15px 25px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .nav-bar { max-width: 1100px; margin: auto; display: flex; justify-content: space-between; align-items: center; }
+        .brand h1 { font-size: 22px; letter-spacing: 1px; color: #facc15; }
+        .brand span { font-size: 12px; color: #d1d5db; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 15px; }
+        .nav-links a { color: #e5e7eb; text-decoration: none; font-size: 14px; font-weight: 500; }
+        .cart-badge { background: #facc15; color: #111827; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 14px; cursor: pointer; border: none; display: flex; align-items: center; gap: 5px; }
+
+        /* نافذة السلة التفاعلية */
+        .cart-modal { display: none; position: fixed; top: 70px; left: 20px; background: white; color: #111827; width: 280px; padding: 20px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); z-index: 1000; border: 1px solid #e5e7eb; text-align: center; }
+        .cart-modal h4 { margin-bottom: 10px; color: #111827; font-size: 16px; border-bottom: 2px solid #facc15; padding-bottom: 5px; }
+        .cart-modal p { font-size: 14px; color: #4b5563; margin-bottom: 15px; }
+        .close-cart { background: #111827; color: white; border: none; padding: 6px 15px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+
+        .hero { background: linear-gradient(135deg, #18181b 0%, #27272a 100%); color: white; text-align: center; padding: 45px 20px; border-bottom: 4px solid #facc15; }
+        .hero h2 { font-size: 30px; margin-bottom: 10px; }
+        .hero h2 span { color: #facc15; }
+        .hero p { color: #a1a1aa; max-width: 550px; margin: 0 auto 20px; font-size: 15px; }
+        .btn-hero { background: #facc15; color: #111827; padding: 12px 28px; border-radius: 10px; text-decoration: none; font-weight: bold; display: inline-block; cursor: pointer; }
+
+        .promo { background: #fef9c3; text-align: center; padding: 10px; font-size: 14px; color: #854d0e; border-bottom: 1px solid #fde047; }
+        .promo mark { background: #facc15; color: #111827; padding: 2px 8px; border-radius: 5px; font-weight: bold; }
+
+        .container { max-width: 1100px; margin: 35px auto; padding: 0 20px; }
+        .sec-title { font-size: 22px; margin-bottom: 20px; border-right: 4px solid #facc15; padding-right: 12px; color: #111827; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 45px; }
+        .card { background: white; border-radius: 14px; padding: 16px; border: 1px solid #e5e7eb; box-shadow: 0 4px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; justify-content: space-between; text-align: center; }
+        
+        .card img { width: 100%; height: 230px; object-fit: cover; border-radius: 10px; background: #f9fafb; margin-bottom: 12px; border: 1px solid #e5e7eb; }
+
+        .card h3 { font-size: 17px; margin-bottom: 6px; color: #111827; }
+        .card p { font-size: 13px; color: #6b7280; margin-bottom: 10px; }
+        .price { margin-bottom: 12px; font-size: 16px; }
+        .price del { color: #9ca3af; font-size: 14px; margin-left: 6px; }
+        .price ins { color: #16a34a; font-weight: bold; text-decoration: none; font-size: 18px; }
+        .btn-add { background: #111827; color: white; border: none; padding: 10px; border-radius: 8px; width: 100%; font-weight: bold; cursor: pointer; }
+        .btn-add:hover { background: #374151; }
+
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; margin-bottom: 45px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
+        th { background: #111827; color: #facc15; }
+
+        .form-box { background: white; padding: 25px; border-radius: 14px; border: 1px solid #e5e7eb; }
+        fieldset { border: 1px solid #d1d5db; border-radius: 10px; padding: 18px; margin-bottom: 18px; }
+        legend { background: #111827; color: #facc15; padding: 4px 14px; border-radius: 6px; font-size: 14px; font-weight: bold; }
+        .field { margin-bottom: 14px; }
+        .field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 5px; }
+        .field input[type="text"], .field select, .field textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px; outline: none; }
+        .options { display: flex; gap: 18px; flex-wrap: wrap; }
+        .btn-submit { background: #16a34a; color: white; border: none; padding: 13px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; }
+
+        footer { background: #111827; color: #9ca3af; text-align: center; padding: 20px; margin-top: 40px; font-size: 13px; }
+        footer a { color: #facc15; text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-bar">
+            <div class="brand">
+                <h1>كرييتف | CREATIVE</h1>
+                <span>أسلوب الشارع الفاخر</span>
+            </div>
+            <div class="nav-links">
+                <a href="#collection">التشكيلة</a>
+                <a href="#sizes">المقاسات</a>
+                <a href="#order">اطلب الآن</a>
+                <button class="cart-badge" onclick="toggleCart()">🛒 السلة (<span id="cart">0</span>)</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- نافذة السلة التفاعلية تفتح عند الضغط على زر السلة -->
+    <div id="cartModal" class="cart-modal">
+        <h4>سلة مشتريات كرييتف</h4>
+        <p id="cartStatus">السلة فارغة حالياً. أضف بعض المنتجات!</p>
+        <button class="close-cart" onclick="toggleCart()">إغلاق</button>
+    </div>
+
+    <section class="hero">
+        <h2>تشكيلة <span>كرييتف</span> الحصرية</h2>
+        <p>تصاميم أوفر سايز بخامات قطنية فاخرة وطباعة عالية الجودة تعكس شخصيتك.</p>
+        <a href="#collection" class="btn-hero">استكشف التيشيرتات</a>
+    </section>
+
+    <div class="promo">
+        🔥 <strong>عرض الإطلاق:</strong> استخدم كود <mark>CR20</mark> واحصل على خصم إضافي وتغليف مجاني!
+    </div>
+
+    <div class="container">
+        <h2 class="sec-title" id="collection">تيشيرتات كرييتف المتوفرة</h2>
+        <div class="grid">
+
+            <!-- تيشيرت 1 -->
+            <div class="card">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500&auto=format&fit=crop&q=60" alt="Timeless Beat">
+                    <h3>Timeless Beat</h3>
+                    <p>لون عنابي مغسول (Vintage) بطبعة كلاسيكية فاخرة.</p>
+                </div>
+                <div>
+                    <div class="price"><del>190 ريال</del> <ins>149 ريال</ins></div>
+                    <button class="btn-add" onclick="add('Timeless Beat')">إضافة للسلة</button>
+                </div>
+            </div>
+
+            <!-- تيشيرت 2 -->
+            <div class="card">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?w=500&auto=format&fit=crop&q=60" alt="Circuit Gray">
+                    <h3>Circuit Gray</h3>
+                    <p>لون رمادي فحمي بتصميم عصري وقصة أوفر سايز مريحة.</p>
+                </div>
+                <div>
+                    <div class="price"><del>179 ريال</del> <ins>149 ريال</ins></div>
+                    <button class="btn-add" onclick="add('Circuit Gray')">إضافة للسلة</button>
+                </div>
+            </div>
+
+            <!-- تيشيرت 3 -->
+            <div class="card">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&auto=format&fit=crop&q=60" alt="Stacked Off-White">
+                    <h3>Stacked Off-White</h3>
+                    <p>لون أوف وايت أنيق بطبعة بارزة وجودة قطن 100%.</p>
+                </div>
+                <div>
+                    <div class="price"><del>185 ريال</del> <ins>155 ريال</ins></div>
+                    <button class="btn-add" onclick="add('Stacked Off-White')">إضافة للسلة</button>
+                </div>
+            </div>
+
+            <!-- تيشيرت 4 -->
+            <div class="card">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=500&auto=format&fit=crop&q=60" alt="Vintage Wilderness">
+                    <h3>Vintage Wilderness</h3>
+                    <p>لون بني داكن بطبعة فينتج مستوحاة من الطراز الكلاسيكي.</p>
+                </div>
+                <div>
+                    <div class="price"><del>199 ريال</del> <ins>159 ريال</ins></div>
+                    <button class="btn-add" onclick="add('Vintage Wilderness')">إضافة للسلة</button>
+                </div>
+            </div>
+
+        </div>
+
+        <h2 class="sec-title" id="sizes">دليل المقاسات (Oversize)</h2>
+        <table>
+            <tr>
+                <th>المقاس</th>
+                <th>العرض (سم)</th>
+                <th>الطول (سم)</th>
+            </tr>
+            <tr>
+                <td><strong>S</strong></td>
+                <td>56</td>
+                <td>70</td>
+            </tr>
+            <tr>
+                <td><strong>M</strong></td>
+                <td>59</td>
+                <td>73</td>
+            </tr>
+            <tr>
+                <td><strong>L</strong></td>
+                <td>62</td>
+                <td>76</td>
+            </tr>
+        </table>
+
+        <h2 class="sec-title" id="order">إتمام الطلب السريع</h2>
+        <div class="form-box">
+            <form onsubmit="done(event)">
+                <fieldset>
+                    <legend>بيانات العميل والتوصيل</legend>
+                    <div class="field">
+                        <label for="name">الاسم الكامل:</label>
+                        <input type="text" id="name" required placeholder="أدخل اسمك هنا">
+                    </div>
+
+                    <div class="field">
+                        <label for="tshirt">اختر التيشيرت:</label>
+                        <select id="tshirt">
+                            <option>Timeless Beat - 149 ريال</option>
+                            <option>Circuit Gray - 149 ريال</option>
+                            <option>Stacked Off-White - 155 ريال</option>
+                            <option>Vintage Wilderness - 159 ريال</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="city">المدينة (اختر أو اكتب):</label>
+                        <input list="cities" id="city" placeholder="حدد مدينتك">
+                        <datalist id="cities">
+                            <option value="الرياض">
+                            <option value="جدة">
+                            <option value="الدمام">
+                            <option value="بريدة">
+                        </datalist>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>المقاس وطريقة الدفع</legend>
+                    <div class="field">
+                        <label>المقاس المطلوب:</label>
+                        <div class="options">
+                            <label><input type="radio" name="size" value="S"> S</label>
+                            <label><input type="radio" name="size" value="M" checked> M</label>
+                            <label><input type="radio" name="size" value="L"> L</label>
+                        </div>
+                    </div>
+
+                    <div class="field" style="margin-top: 15px;">
+                        <label>طريقة الدفع:</label>
+                        <div class="options">
+                            <label><input type="radio" name="payment" value="mada" checked> مدى (Mada)</label>
+                            <label><input type="radio" name="payment" value="apple"> Apple Pay</label>
+                            <label><input type="radio" name="payment" value="cod"> الدفع عند الاستلام</label>
+                        </div>
+                    </div>
+
+                    <div class="field" style="margin-top: 15px;">
+                        <label>خيارات إضافية:</label>
+                        <div class="options">
+                            <label><input type="checkbox" checked> تغليف هدايا كرييتف</label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <input type="submit" value="تأكيد الطلب الآن" class="btn-submit">
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        جميع الحقوق محفوظة &copy; 2026 براند كرييتف (Creative) | للتواصل: <a href="mailto:order@creative.sa">order@creative.sa</a>
+    </footer>
+
+    <script>
+        let count = 0;
+        let itemsList = [];
+
+        function add(item) {
+            count++;
+            itemsList.push(item);
+            document.getElementById('cart').innerText = count;
+            document.getElementById('cartStatus').innerText = "لديك " + count + " منتج في السلة:\n• " + itemsList.join("\n• ");
+            alert('تمت إضافة تيشيرت "' + item + '" إلى سلة كرييتف!');
+        }
+
+        function toggleCart() {
+            let modal = document.getElementById('cartModal');
+            if (modal.style.display === 'block') {
+                modal.style.display = 'none';
+            } else {
+                modal.style.display = 'block';
+            }
+        }
+
+        function done(e) {
+            e.preventDefault();
+            alert('شكراً لطلبك من كرييتف! تم استلام بياناتك وطريقة الدفع بنجاح.');
+        }
+    </script>
+
+</body>
+</html>
